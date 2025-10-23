@@ -1,15 +1,111 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+# ========================================
+# Android / Kotlin project .gitignore
+# ========================================
+
+# Build folders
+/build/
+**/build/
+**/out/
+.gradle/
 local.properties
+
+# Gradle
+.gradle/
+gradle-app.setting
+gradle.properties
+gradle/wrapper/gradle-wrapper.properties
+gradle/wrapper/gradle-wrapper.jar
+
+# Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/dictionaries
+.idea/**/libraries
+.idea/**/caches
+.idea/**/shelf/
+.idea/**/httpRequests/
+
+# Captures folder
+captures/
+
+# Generated files
+generated/
+.navigation/
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+*.jar
+*.war
+*.ear
+
+# Log files
+*.log
+
+# Keystore files (private)
+*.jks
+*.keystore
+*.pem
+*.p12
+
+# Sign-in keys or secrets
+key.properties
+keys.properties
+
+# Android profiling
+*.hprof
+
+# NDK
+obj/
+.externalNativeBuild/
+.cxx/
+
+# Unit test reports
+test-results/
+coverage/
+
+# Lint
+lint/intermediates/
+lint/generated/
+lint/outputs/
+lint/tmp/
+*.lint
+
+# Jetpack Compose previews cache
+compose-cache/
+.idea/deploymentTargetDropDown.xml
+
+# MacOS / Windows
+.DS_Store
+Thumbs.db
+
+# Kotlin specific
+*.kotlin_metadata
+*.kotlin_module
+
+# Temporary or backup files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.orig
+*.old
+
+# Firebase or secrets
+google-services.json
+GoogleService-Info.plist
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# =============================
+# End of file
+# =============================
