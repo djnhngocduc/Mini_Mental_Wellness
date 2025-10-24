@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.compose.material3.Icon
 import com.example.uetontop.navigation.Screen
 
 @Composable
@@ -28,6 +29,13 @@ fun HomeScreen(navController: NavController) {
                 .padding(16.dp)
                 .fillMaxSize()
         ) {
+            HomeHeader(
+                onProfileClick = { navController.navigate(Screen.Profile.route) },
+                onChatClick = { /* TODO: open chat/inbox */ },
+                onBellClick = { /* TODO: open notifications */ }
+            )
+
+            Spacer(Modifier.height(8.dp))
             // Search bar
             OutlinedTextField(
                 value = "",
