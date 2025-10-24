@@ -9,12 +9,6 @@
 .gradle/
 local.properties
 
-# Gradle
-.gradle/
-gradle-app.setting
-gradle.properties
-gradle/wrapper/gradle-wrapper.properties
-gradle/wrapper/gradle-wrapper.jar
 
 # Android Studio
 .idea/
