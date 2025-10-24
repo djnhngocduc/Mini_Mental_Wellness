@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation("androidx.compose.foundation:foundation-layout")
 
     // --- Navigation Compose ---
     implementation("androidx.navigation:navigation-compose:2.8.3")
@@ -72,6 +73,8 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.51.1")
     //kapt("com.google.dagger:hilt-compiler:2.51.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.compose.runtime)
 
     // --- Unit Test ---
     testImplementation(libs.junit)
