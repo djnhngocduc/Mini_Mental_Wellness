@@ -21,12 +21,12 @@ import com.example.uetontop.navigation.Screen
 fun HomeScreen(navController: NavController) {
     Scaffold(
         bottomBar = { BottomBar(navController) },
-        containerColor = Color(0xFFF5F5F5)
+        containerColor = Color(0xFFF5F5F5),
+        contentWindowInsets = WindowInsets(0.dp)
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .padding(16.dp)
                 .fillMaxSize()
         ) {
             HomeHeader(
@@ -36,35 +36,48 @@ fun HomeScreen(navController: NavController) {
             )
 
             Spacer(Modifier.height(8.dp))
+
             // Search bar
-            OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                placeholder = { Text("Tìm kiếm") },
-                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(50)
-            )
+            Column(modifier = Modifier.padding(16.dp)) {
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = {},
+                    placeholder = { Text("Tìm kiếm") },
+                    leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(50)
+                )
 
-            Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
-            // Today section
-            Text("Today", style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold))
-            Text("How are you feeling?", style = MaterialTheme.typography.bodyLarge)
-            Spacer(modifier = Modifier.height(12.dp))
+                // Today section
+                Text(
+                    "Today",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                )
+                Text("How are you feeling?", style = MaterialTheme.typography.bodyLarge)
+                Spacer(modifier = Modifier.height(12.dp))
 
-            Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
-                repeat(5) {
-                    Box(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .background(Color.White, CircleShape)
-                    )
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    repeat(5) {
+                        Box(
+                            modifier = Modifier
+                                .size(48.dp)
+                                .background(Color.White, CircleShape)
+                        )
+                    }
                 }
+
+                Spacer(modifier = Modifier.height(32.dp))
+                Text(
+                    "My plan",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
-            Text("My plan", style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold))
             Spacer(modifier = Modifier.height(12.dp))
 
             // Cards grid

@@ -36,6 +36,7 @@ fun HomeHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .background(Color.White)
             .statusBarsPadding()
             .padding(horizontal = 12.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically

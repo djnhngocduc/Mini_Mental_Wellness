@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -52,13 +53,13 @@ fun TestScreen(navController: NavController) {
 
     Scaffold(
         bottomBar = { BottomBar(navController) },
-        containerColor = Color(0xFFF5F5F7)
+        containerColor = Color(0xFFF5F5F7),
+        contentWindowInsets = WindowInsets(0.dp)
     ) { inner ->
         Column(
             modifier = Modifier
                 .padding(inner)
                 .fillMaxSize()
-                .padding(16.dp)
                 .background(Color(0xFFF5F5F7))
         ) {
             HomeHeader(
@@ -66,28 +67,35 @@ fun TestScreen(navController: NavController) {
                 onChatClick = { /* ... */ },
                 onBellClick = { /* ... */ },
             )
+            Column(modifier = Modifier.padding(16.dp)) {
+                // ---- chỉ thay phần giữa từ đây ----
+                when (val s = uiState) {
+                    is TestUiState.Select -> TestSelectContent(
+                        onNext = { selectedId ->
+                            uiState = TestUiState.Questions(testId = selectedId)
+                        }
+                    )
 
-            // ---- chỉ thay phần giữa từ đây ----
-            when (val s = uiState) {
-                is TestUiState.Select -> TestSelectContent(
-                    onNext = { selectedId ->
-                        uiState = TestUiState.Questions(testId = selectedId)
-                    }
-                )
-                is TestUiState.Questions -> QuestionFlowContent(
-                    testId = s.testId,
-                    onFinish = { score, maxScore ->
-                        uiState = TestUiState.Result(testId = s.testId, score = score, maxScore = maxScore)
-                    }
-                )
-                is TestUiState.Result -> ResultContent(
-                    testId = s.testId,
-                    score = s.score,
-                    maxScore = s.maxScore,
-                    onRetake = { uiState = TestUiState.Questions(testId = s.testId) },
-                    onBackToList = { uiState = TestUiState.Select }
-                )
+                    is TestUiState.Questions -> QuestionFlowContent(
+                        testId = s.testId,
+                        onFinish = { score, maxScore ->
+                            uiState = TestUiState.Result(
+                                testId = s.testId,
+                                score = score,
+                                maxScore = maxScore
+                            )
+                        }
+                    )
 
+                    is TestUiState.Result -> ResultContent(
+                        testId = s.testId,
+                        score = s.score,
+                        maxScore = s.maxScore,
+                        onRetake = { uiState = TestUiState.Questions(testId = s.testId) },
+                        onBackToList = { uiState = TestUiState.Select }
+                    )
+
+                }
             }
             // ---- hết phần giữa ----
         }
