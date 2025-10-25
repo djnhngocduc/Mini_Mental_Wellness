@@ -1,5 +1,6 @@
 package com.example.uetontop.ui.library
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,36 +12,55 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.uetontop.R
+import com.example.uetontop.navigation.Screen
 import com.example.uetontop.ui.home.BottomBar
+import com.example.uetontop.ui.home.HomeHeader
 
 @Composable
-fun LibraryScreen(navController: NavHostController) {
+fun LibraryScreen(navController: NavController) {
     val bg = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = .25f)
 
     Scaffold(
-        bottomBar = { BottomBar(navController) } // ✅ Thêm bottom bar
-    ) { innerPadding ->
-        LazyColumn(
+        bottomBar = { BottomBar(navController) },
+        containerColor = Color(0xFFF5F5F7),
+        contentWindowInsets = WindowInsets(0.dp)
+    ) { inner ->
+        Column(
             modifier = Modifier
+                .padding(inner)
                 .fillMaxSize()
-                .background(bg)
-                .padding(horizontal = 16.dp)
-                .padding(innerPadding), // ✅ chừa chỗ cho bottom bar
-            contentPadding = PaddingValues(vertical = 16.dp)
+                .background(Color(0xFFF5F5F7))
         ) {
-            item { SectionTitle("Exercise") }
-            items(sampleItems) { LibraryItemRow(it) }
-            item { Spacer(Modifier.height(16.dp)) }
-            item { SectionTitle("Podcast") }
-            items(sampleItems) { LibraryItemRow(it) }
-            item { Spacer(Modifier.height(24.dp)) }
+            HomeHeader(
+                onProfileClick = { navController.navigate(Screen.Profile.route) },
+                onChatClick = { /* ... */ },
+                onBellClick = { /* ... */ },
+            )
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(bg)
+                    .padding(horizontal = 16.dp)
+                    .padding(inner),
+                contentPadding = PaddingValues(vertical = 16.dp)
+            ) {
+                item { SectionTitle("Exercise") }
+                items(sampleItems) { LibraryItemRow(it) }
+                item { Spacer(Modifier.height(16.dp)) }
+                item { SectionTitle("Podcast") }
+                items(sampleItems) { LibraryItemRow(it) }
+                item { Spacer(Modifier.height(24.dp)) }
+            }
         }
     }
 }
@@ -57,13 +77,14 @@ private fun SectionTitle(text: String) {
 private data class LibraryUi(
     val category: String,
     val title: String,
-    val subtitle: String
+    val subtitle: String,
+    @DrawableRes val imageRes: Int
 )
 
 private val sampleItems = listOf(
-    LibraryUi("UI/UX Design", "A Simple Trick For Creating Color Palettes Quickly", "Six steps to creating a color palette"),
-    LibraryUi("Art", "Six steps to creating a color palette", "Quick ideas to start"),
-    LibraryUi("Colors", "Creating Color Palettes from images", "Tips and tools")
+    LibraryUi("UI/UX Design", "A Simple Trick For Creating Color Palettes Quickly", "Six steps to creating a color palette", R.drawable.art),
+    LibraryUi("Art", "Six steps to creating a color palette", "Quick ideas to start", R.drawable.colors),
+    LibraryUi("Colors", "Creating Color Palettes from images", "Tips and tools", R.drawable.leaves)
 )
 
 @Composable
@@ -75,7 +96,7 @@ private fun LibraryItemRow(item: LibraryUi) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource(android.R.drawable.ic_menu_gallery),
+            painter = painterResource(item.imageRes),
             contentDescription = null,
             modifier = Modifier
                 .size(84.dp)

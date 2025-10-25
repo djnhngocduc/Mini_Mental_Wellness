@@ -8,111 +8,137 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.uetontop.R
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.uetontop.navigation.Screen
+import com.example.uetontop.ui.home.BottomBar
+import com.example.uetontop.ui.home.HomeHeader
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Refresh
+import androidx.compose.material.icons.outlined.Logout
+import androidx.compose.material.icons.outlined.ChevronRight
 
 
 @Composable
-fun ProfileScreen(
-    onRefresh: () -> Unit = {}   // <-- callback khi bấm refresh
-) {
+fun ProfileScreen(navController: NavController) {
     val bg = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = .25f)
     var notif by remember { mutableStateOf(true) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(bg)
-            .padding(horizontal = 16.dp, vertical = 16.dp)
-    ) {
-        // ---- Row: "3 days ago" + refresh button
-        Row(
-            Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+    Scaffold(
+        bottomBar = { BottomBar(navController) },
+        containerColor = Color(0xFFF5F5F7),
+        contentWindowInsets = WindowInsets(0.dp)
+    ) { inner ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(bg)
+                .padding(inner)
         ) {
-            Text(
-                "3 days ago",
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.weight(1f)
+            HomeHeader(
+                onProfileClick = { navController.navigate(Screen.Profile.route) },
+                onChatClick = { /* ... */ },
+                onBellClick = { /* ... */ },
             )
-            IconButton(onClick = onRefresh) {
-                // Không cần material-icons-extended: dùng icon hệ thống
-                Icon(
-                    painter = painterResource(android.R.drawable.ic_popup_sync),
-                    contentDescription = "Refresh"
-                )
-            }
-        }
-        Spacer(Modifier.height(12.dp))
+            // ---- Row: "3 days ago" + refresh button
 
-        // Row 1
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            StatCard(
-                title = "Heart Rate", value = "78", unit = "bpm",
-                container = MaterialTheme.colorScheme.errorContainer.copy(alpha = .25f),
-                onColor = MaterialTheme.colorScheme.error,
-                modifier = Modifier.weight(1f)
-            )
-            StatCard(
-                title = "Exercise", value = "24", unit = "min",
-                container = MaterialTheme.colorScheme.primaryContainer.copy(alpha = .35f),
-                onColor = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.weight(1f)
-            )
-        }
-        Spacer(Modifier.height(12.dp))
-
-        // Row 2
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            StatCard(
-                title = "Walking", value = "10", unit = "km",
-                container = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = .35f),
-                onColor = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier.weight(1f)
-            )
-            StatCard(
-                title = "Sleep", value = "8", unit = "hrs",
-                container = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = .35f),
-                onColor = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.weight(1f)
-            )
-        }
-
-        Spacer(Modifier.height(16.dp))
-
-        SettingSwitchRow("Notifications", notif) { notif = it }
-        Spacer(Modifier.height(12.dp))
-        SettingArrowRow("Language")
-        Spacer(Modifier.height(12.dp))
-        SettingArrowRow("Change Password")
-
-        Spacer(Modifier.height(16.dp))
-
-        ElevatedCard(
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.elevatedCardColors(
-//                containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = .35f)
-                containerColor = Color(0xFFFFE0E0)
-            ),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 16.dp)
             ) {
-                Text("Sign Out", fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-                Icon(
-                    painterResource(android.R.drawable.ic_menu_revert),
-                    contentDescription = null
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "3 days ago",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.weight(1f)
+                    )
+                    IconButton(onClick = {}) {
+                        Icon(
+                            imageVector = Icons.Outlined.Refresh,
+                            contentDescription = "Refresh"
+                        )
+                    }
+                }
+                Spacer(Modifier.height(12.dp))
+
+                // Row 1
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    StatCard(
+                        title = "Heart Rate", value = "78", unit = "bpm",
+                        container = MaterialTheme.colorScheme.errorContainer.copy(alpha = .25f),
+                        onColor = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.weight(1f)
+                    )
+                    StatCard(
+                        title = "Exercise", value = "24", unit = "min",
+                        container = MaterialTheme.colorScheme.primaryContainer.copy(alpha = .35f),
+                        onColor = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                Spacer(Modifier.height(12.dp))
+
+                // Row 2
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    StatCard(
+                        title = "Walking", value = "10", unit = "km",
+                        container = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = .35f),
+                        onColor = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier.weight(1f)
+                    )
+                    StatCard(
+                        title = "Sleep", value = "8", unit = "hrs",
+                        container = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = .35f),
+                        onColor = MaterialTheme.colorScheme.secondary,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                Spacer(Modifier.height(16.dp))
+
+                SettingSwitchRow("Notifications", notif) { notif = it }
+                Spacer(Modifier.height(12.dp))
+                SettingArrowRow("Language")
+                Spacer(Modifier.height(12.dp))
+                SettingArrowRow("Change Password")
+
+                Spacer(Modifier.height(16.dp))
+
+                ElevatedCard(
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.elevatedCardColors(
+                        //                containerColor = MaterialTheme.colorScheme.errorContainer.copy(alpha = .35f)
+                        containerColor = Color(0xFFFFE0E0)
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            "Sign Out",
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.weight(1f)
+                        )
+                        Icon(
+                            imageVector = Icons.Outlined.Logout,
+                            contentDescription = null
+                        )
+                    }
+                }
+                Spacer(Modifier.height(24.dp))
             }
         }
-        Spacer(Modifier.height(24.dp))
     }
 }
 
@@ -176,7 +202,10 @@ private fun SettingArrowRow(title: String) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(title, modifier = Modifier.weight(1f))
-            Text("›") // dùng ký tự mũi tên, không cần phụ thuộc icon
+            Icon(
+                imageVector = Icons.Outlined.ChevronRight,
+                contentDescription = null
+            )
         }
     }
 }
@@ -184,5 +213,8 @@ private fun SettingArrowRow(title: String) {
 @Preview(showBackground = true)
 @Composable
 private fun PreviewProfile() {
-    MaterialTheme { ProfileScreen() }
+    val navController = rememberNavController()
+    MaterialTheme(colorScheme = lightColorScheme()) {
+        ProfileScreen(navController)
+    }
 }
