@@ -19,28 +19,39 @@ fun BottomBar(navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    NavigationBar {
-        items.forEach { screen ->
-            val icon = when (screen) {
-                is Screen.Home -> Icons.Default.Home
-                is Screen.Test -> Icons.Default.CheckCircle
-                is Screen.Library -> Icons.Default.FavoriteBorder
-                is Screen.Profile -> Icons.Default.AccountCircle
-            }
+    // Ẩn BottomBar ở các màn không cần
+    val shouldShowBottomBar = currentRoute !in listOf(
+        Screen.Onboarding1.route,
+        Screen.Onboarding2.route,
+        Screen.Chat.route
+    )
 
-            NavigationBarItem(
-                selected = currentRoute == screen.route,
-                onClick = {
-                    if (currentRoute != screen.route) {
-                        navController.navigate(screen.route) {
-                            popUpTo(Screen.Home.route)
-                            launchSingleTop = true
+    if (shouldShowBottomBar) {
+        NavigationBar {
+            items.forEach { screen ->
+                val icon = when (screen.route) {
+                    Screen.Home.route -> Icons.Default.Home
+                    Screen.Test.route -> Icons.Default.CheckCircle
+                    Screen.Library.route -> Icons.Default.FavoriteBorder
+                    Screen.Profile.route -> Icons.Default.AccountCircle
+                    else -> Icons.Default.Home
+                }
+
+                NavigationBarItem(
+                    selected = currentRoute == screen.route,
+                    onClick = {
+                        if (currentRoute != screen.route) {
+                            navController.navigate(screen.route) {
+                                popUpTo(Screen.Home.route)
+                                launchSingleTop = true
+                            }
                         }
-                    }
-                },
-                icon = { Icon(icon, contentDescription = screen.route) },
-                label = { Text(screen.route.replaceFirstChar { it.uppercase() }) }
-            )
+                    },
+                    icon = { Icon(icon, contentDescription = screen.route) },
+                    label = { Text(screen.route.replaceFirstChar { it.uppercase() }) }
+                )
+            }
         }
     }
 }
+
