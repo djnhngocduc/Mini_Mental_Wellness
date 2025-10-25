@@ -31,7 +31,7 @@ fun HomeScreen(navController: NavController) {
         ) {
             HomeHeader(
                 onProfileClick = { navController.navigate(Screen.Profile.route) },
-                onChatClick = { /* TODO: open chat/inbox */ },
+                onChatClick = { navController.navigate(Screen.Chat.route) },
                 onBellClick = { /* TODO: open notifications */ }
             )
 
