@@ -30,7 +30,7 @@ fun AppNavHost(navController: NavHostController) {
         composable(Screen.Home.route) { HomeScreen(navController) }
         composable(Screen.Test.route) { TestScreen(navController) }
         composable(Screen.Library.route) { LibraryScreen(navController) }
-        composable(Screen.Profile.route) { ProfileScreen(navController) }
+        composable(Screen.Profile.route) { ProfileScreen(navController as () -> Unit) }
         composable(Screen.Chat.route) { ChatScreen(navController) }
     }
 }
