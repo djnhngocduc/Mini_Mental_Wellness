@@ -6,8 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,28 +16,32 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import com.example.uetontop.R
 import androidx.navigation.compose.rememberNavController
+import com.example.uetontop.ui.home.BottomBar
 
 @Composable
 fun LibraryScreen(navController: NavHostController) {
     val bg = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = .25f)
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(bg)
-            .padding(horizontal = 16.dp),
-        contentPadding = PaddingValues(vertical = 16.dp)
-    ) {
-        item { SectionTitle("Exercise") }
-        items(sampleItems) { LibraryItemRow(it) }
-        item { Spacer(Modifier.height(16.dp)) }
-        item { SectionTitle("Podcast") }
-        items(sampleItems) { LibraryItemRow(it) }
-        item { Spacer(Modifier.height(24.dp)) }
+    Scaffold(
+        bottomBar = { BottomBar(navController) } // ✅ Thêm bottom bar
+    ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(bg)
+                .padding(horizontal = 16.dp)
+                .padding(innerPadding), // ✅ chừa chỗ cho bottom bar
+            contentPadding = PaddingValues(vertical = 16.dp)
+        ) {
+            item { SectionTitle("Exercise") }
+            items(sampleItems) { LibraryItemRow(it) }
+            item { Spacer(Modifier.height(16.dp)) }
+            item { SectionTitle("Podcast") }
+            items(sampleItems) { LibraryItemRow(it) }
+            item { Spacer(Modifier.height(24.dp)) }
+        }
     }
 }
 
@@ -72,7 +75,7 @@ private fun LibraryItemRow(item: LibraryUi) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource(R.mipmap.ic_launcher),
+            painter = painterResource(android.R.drawable.ic_menu_gallery),
             contentDescription = null,
             modifier = Modifier
                 .size(84.dp)
@@ -91,5 +94,8 @@ private fun LibraryItemRow(item: LibraryUi) {
 @Preview(showBackground = true)
 @Composable
 private fun PreviewLibrary() {
-    MaterialTheme { LibraryScreen(rememberNavController()) }
+    val navController = rememberNavController()
+    MaterialTheme(colorScheme = lightColorScheme()) {
+        LibraryScreen(navController)
+    }
 }
