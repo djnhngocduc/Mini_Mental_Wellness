@@ -76,6 +76,7 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.material3)
 
     // --- Unit Test ---
     testImplementation(libs.junit)

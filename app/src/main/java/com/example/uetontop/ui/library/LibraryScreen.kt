@@ -27,18 +27,18 @@ import com.example.uetontop.ui.home.HomeHeader
 
 @Composable
 fun LibraryScreen(navController: NavController) {
-    val bg = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = .25f)
+    val bg = Color(0xFFF5F5F7)
 
     Scaffold(
         bottomBar = { BottomBar(navController) },
-        containerColor = Color(0xFFF5F5F7),
+        containerColor = bg,
         contentWindowInsets = WindowInsets(0.dp)
     ) { inner ->
         Column(
             modifier = Modifier
                 .padding(inner)
                 .fillMaxSize()
-                .background(Color(0xFFF5F5F7))
+                .background(bg)
         ) {
             HomeHeader(
                 onProfileClick = { navController.navigate(Screen.Profile.route) },
@@ -50,16 +50,18 @@ fun LibraryScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(bg)
-                    .padding(horizontal = 16.dp)
-                    .padding(inner),
-                contentPadding = PaddingValues(vertical = 16.dp)
+                    .padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(
+                    top = 16.dp,
+                    bottom = inner.calculateBottomPadding() + 16.dp
+                )
             ) {
                 item { SectionTitle("Exercise") }
                 items(sampleItems) { LibraryItemRow(it) }
                 item { Spacer(Modifier.height(16.dp)) }
                 item { SectionTitle("Podcast") }
                 items(sampleItems) { LibraryItemRow(it) }
-                item { Spacer(Modifier.height(24.dp)) }
             }
         }
     }
