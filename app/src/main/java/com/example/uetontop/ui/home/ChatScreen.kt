@@ -18,23 +18,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
-data class ChatMessage(
-    val text: String,
-    val isUser: Boolean
-)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatScreen(navController: NavController) {
-    var messages by remember {
-        mutableStateOf(
-            listOf(
-                ChatMessage("Xin chào! Tôi là UET Bot.", isUser = false),
-                ChatMessage("Chào bot, hôm nay trời đẹp nhỉ!", isUser = true)
-            )
-        )
-    }
-
+fun ChatScreen(navController: NavController, viewModel: ChatViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+    val messages by viewModel.messages.collectAsState()
     var inputText by remember { mutableStateOf(TextFieldValue("")) }
 
     Scaffold(
@@ -49,19 +36,9 @@ fun ChatScreen(navController: NavController) {
                         )
                     }
                 },
-                actions = {
-                    // Hai nút chế độ
-                    TextButton(onClick = { /* TODO: Chuyển chế độ chat */ }) {
-                        Text("Chat", color = Color.White)
-                    }
-                    TextButton(onClick = { /* TODO: Chuyển sang Q&A hoặc Model khác */ }) {
-                        Text("Q&A", color = Color.White)
-                    }
-                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Color(0xFF4A90E2),
-                    titleContentColor = Color.White,
-                    navigationIconContentColor = Color.White
+                    titleContentColor = Color.White
                 )
             )
         },
@@ -71,16 +48,8 @@ fun ChatScreen(navController: NavController) {
                 onInputChange = { inputText = it },
                 onSendClick = {
                     if (inputText.text.isNotBlank()) {
-                        // Thêm tin nhắn user
-                        messages = messages + ChatMessage(inputText.text, isUser = true)
-
-                        // Sau này chỗ này bạn có thể gọi model AI trả lời
-                        // Ví dụ: launch { val reply = callBotModel(inputText.text) ... }
-
-                        // Giả lập phản hồi bot tạm thời
-                        messages = messages + ChatMessage("Bot: Tôi đã nhận được tin nhắn của bạn.", isUser = false)
-
-                        inputText = TextFieldValue("") // reset input
+                        viewModel.sendMessage(inputText.text)
+                        inputText = TextFieldValue("")
                     }
                 }
             )
@@ -105,6 +74,7 @@ fun ChatScreen(navController: NavController) {
         }
     }
 }
+
 
 @Composable
 fun ChatBubble(message: ChatMessage) {
