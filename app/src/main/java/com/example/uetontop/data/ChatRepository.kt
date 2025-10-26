@@ -2,6 +2,7 @@ package com.example.uetontop.data
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.json.JSONArray
 import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
@@ -9,22 +10,21 @@ import java.net.URL
 class ChatRepository {
 
     // ⚠️ Thay YOUR_API_KEY bằng key OpenRouter của bạn
-    private val apiKey = "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"
+    private val apiKey = "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"
 
     suspend fun getBotReply(userMessage: String): String = withContext(Dispatchers.IO) {
         try {
             val url = URL("https://openrouter.ai/api/v1/chat/completions")
             val connection = (url.openConnection() as HttpURLConnection).apply {
                 requestMethod = "POST"
-                setRequestProperty("Content-Type", "application/json")
+                setRequestProperty("Content-Type", "application/json; charset=UTF-8")
                 setRequestProperty("Authorization", "Bearer $apiKey")
-                // ✅ Bắt buộc cho OpenRouter
                 setRequestProperty("HTTP-Referer", "https://uetontop.example.com")
                 setRequestProperty("X-Title", "UET On Top ChatBot")
                 doOutput = true
             }
 
-            // ✅ Prompt hệ thống cho AI Coach
+            // ✅ Prompt hệ thống
             val systemPrompt = """
                 Bạn là một AI chuyên về tư vấn tâm lý và sức khỏe tinh thần. Tên của bạn là 'AI Coach'.
 
@@ -46,21 +46,21 @@ class ChatRepository {
                 - Luôn luôn trả lời bằng Tiếng Việt một cách tự nhiên và đồng cảm.
             """.trimIndent()
 
-            // ✅ Body JSON gửi đến OpenRouter
-            val body = """
-            {
-                "model": "openai/chatgpt-4o-latest",
-                "messages": [
-                    {"role": "system", "content": "$systemPrompt"},
-                    {"role": "user", "content": "$userMessage"}
-                ]
-            }
-            """.trimIndent()
+            // ✅ Tạo body JSON đúng format
+            val messages = JSONArray()
+                .put(JSONObject().put("role", "system").put("content", systemPrompt))
+                .put(JSONObject().put("role", "user").put("content", userMessage))
 
+            val body = JSONObject()
+                .put("model", "openai/chatgpt-4o-latest")
+                .put("messages", messages)
+
+            // ✅ Gửi body (UTF-8)
             connection.outputStream.use { os ->
-                os.write(body.toByteArray(Charsets.UTF_8))
+                os.write(body.toString().toByteArray(Charsets.UTF_8))
             }
 
+            // ✅ Nhận phản hồi
             val responseCode = connection.responseCode
             val responseText = if (responseCode in 200..299) {
                 connection.inputStream.bufferedReader().readText()
@@ -75,13 +75,11 @@ class ChatRepository {
             }
 
             val json = JSONObject(responseText)
-            val reply = json
-                .getJSONArray("choices")
+            json.getJSONArray("choices")
                 .getJSONObject(0)
                 .getJSONObject("message")
                 .getString("content")
 
-            reply
         } catch (e: Exception) {
             e.printStackTrace()
             "Bot: Xin lỗi, tôi không thể phản hồi ngay bây giờ (${e.message})."
