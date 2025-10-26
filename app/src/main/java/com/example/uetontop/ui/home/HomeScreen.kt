@@ -15,8 +15,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.material3.Icon
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.example.uetontop.navigation.Screen
-
 @Composable
 fun HomeScreen(navController: NavController) {
     Scaffold(
@@ -114,4 +115,12 @@ fun PlanCard(title: String, color: Color, onClick: () -> Unit) {
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+private fun PreviewHome() {
+    val navController = rememberNavController()
+    MaterialTheme {
+        HomeScreen(navController)
+    }
+}
 
