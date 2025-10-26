@@ -257,7 +257,7 @@ private fun SettingArrowRow(title: String) {
 @Composable
 private fun PreviewProfile() {
     val navController = rememberNavController()
-    MaterialTheme(colorScheme = lightColorScheme()) {
+    MaterialTheme {
         ProfileScreen(navController)
     }
 }
