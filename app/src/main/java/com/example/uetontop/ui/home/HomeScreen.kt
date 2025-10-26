@@ -31,8 +31,10 @@ fun HomeScreen(navController: NavController) {
         ) {
             HomeHeader(
                 onProfileClick = { navController.navigate(Screen.Profile.route) },
+                onCalendarClick = { navController.navigate(Screen.Schedule.route) },
                 onChatClick = { navController.navigate(Screen.Chat.route) },
                 onBellClick = { /* TODO: open notifications */ },
+
             )
 
             Spacer(Modifier.height(8.dp))

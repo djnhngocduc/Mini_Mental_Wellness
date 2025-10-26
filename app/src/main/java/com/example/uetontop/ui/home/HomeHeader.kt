@@ -5,23 +5,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
+import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +25,7 @@ import com.example.uetontop.R
 @Composable
 fun HomeHeader(
     onProfileClick: () -> Unit = {},
+    onCalendarClick: () -> Unit = {},
     onChatClick: () -> Unit = {},
     onBellClick: () -> Unit = {},
     @DrawableRes avatarRes: Int = R.drawable.people
@@ -46,7 +37,6 @@ fun HomeHeader(
             .statusBarsPadding()
             .padding(horizontal = 12.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically
-
     ) {
         // Avatar bên trái
         ElevatedCard(
@@ -63,12 +53,24 @@ fun HomeHeader(
                     .size(34.dp)
                     .clip(CircleShape)
             )
-
         }
 
         Spacer(Modifier.weight(1f))
 
-        // Nút tròn viền mảnh (chat)
+        // Nút lịch (mới thêm)
+        CircularIconButton(
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.CalendarToday,
+                    contentDescription = "Calendar"
+                )
+            },
+            onClick = onCalendarClick
+        )
+
+        Spacer(Modifier.width(12.dp))
+
+        // Nút chat
         CircularIconButton(
             icon = {
                 Icon(
@@ -80,8 +82,8 @@ fun HomeHeader(
         )
 
         Spacer(Modifier.width(12.dp))
-        // Nút tròn viền mảnh (chuông)
 
+        // Nút chuông thông báo
         CircularIconButton(
             icon = {
                 Icon(
@@ -99,7 +101,6 @@ private fun CircularIconButton(
     icon: @Composable () -> Unit,
     onClick: () -> Unit
 ) {
-    // giống mockup: vòng tròn viền mảnh, nền trắng
     Surface(
         shape = CircleShape,
         tonalElevation = 0.dp,
