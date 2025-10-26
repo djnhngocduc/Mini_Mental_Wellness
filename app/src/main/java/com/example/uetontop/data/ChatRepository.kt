@@ -10,7 +10,7 @@ import java.net.URL
 class ChatRepository {
 
     // ⚠️ Thay YOUR_API_KEY bằng key OpenRouter của bạn
-    private val apiKey = "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"
+    private val apiKey = "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"
 
     suspend fun getBotReply(userMessage: String): String = withContext(Dispatchers.IO) {
         try {

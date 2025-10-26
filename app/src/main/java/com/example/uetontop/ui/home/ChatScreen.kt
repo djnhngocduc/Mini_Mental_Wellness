@@ -13,32 +13,36 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatScreen(navController: NavController, viewModel: ChatViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
+fun ChatScreen(
+    navController: NavController,
+    viewModel: ChatViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+) {
     val messages by viewModel.messages.collectAsState()
     var inputText by remember { mutableStateOf(TextFieldValue("")) }
+    val colors = MaterialTheme.colorScheme
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("ChatBot") },
+                title = { Text("TinyChat", color = colors.onPrimary) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back",
+                            tint = colors.onPrimary
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF4A90E2),
-                    titleContentColor = Color.White
+                    containerColor = colors.primary
                 )
             )
         },
@@ -53,13 +57,13 @@ fun ChatScreen(navController: NavController, viewModel: ChatViewModel = androidx
                     }
                 }
             )
-        }
+        },
+        containerColor = colors.background
     ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(Color(0xFFF6F6F6))
         ) {
             LazyColumn(
                 modifier = Modifier
@@ -75,14 +79,13 @@ fun ChatScreen(navController: NavController, viewModel: ChatViewModel = androidx
     }
 }
 
-
 @Composable
 fun ChatBubble(message: ChatMessage) {
+    val colors = MaterialTheme.colorScheme
     val bubbleColor =
-        if (message.isUser) Color(0xFFDCF8C6) else Color.White
-
-    val alignment =
-        if (message.isUser) Alignment.End else Alignment.Start
+        if (message.isUser) colors.primaryContainer else colors.surface
+    val textColor =
+        if (message.isUser) colors.onPrimaryContainer else colors.onSurface
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -90,6 +93,7 @@ fun ChatBubble(message: ChatMessage) {
     ) {
         Box(
             modifier = Modifier
+                .shadow(1.dp, RoundedCornerShape(16.dp))
                 .clip(
                     RoundedCornerShape(
                         topStart = 16.dp,
@@ -100,10 +104,11 @@ fun ChatBubble(message: ChatMessage) {
                 )
                 .background(bubbleColor)
                 .padding(12.dp)
+                .widthIn(max = 280.dp)
         ) {
             Text(
                 text = message.text,
-                color = Color.Black,
+                color = textColor,
                 style = MaterialTheme.typography.bodyMedium
             )
         }
@@ -116,29 +121,44 @@ fun ChatInputBar(
     onInputChange: (TextFieldValue) -> Unit,
     onSendClick: () -> Unit
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.White)
-            .padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically
+    val colors = MaterialTheme.colorScheme
+
+    Surface(
+        shadowElevation = 8.dp,
+        color = colors.surface
     ) {
-        OutlinedTextField(
-            value = inputText,
-            onValueChange = onInputChange,
+        Row(
             modifier = Modifier
-                .weight(1f)
-                .height(56.dp),
-            placeholder = { Text("Nhập tin nhắn...") },
-            shape = RoundedCornerShape(24.dp)
-        )
-        Spacer(Modifier.width(8.dp))
-        IconButton(onClick = onSendClick) {
-            Icon(
-                imageVector = Icons.Default.Send,
-                contentDescription = "Send",
-                tint = Color(0xFF4A90E2)
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            OutlinedTextField(
+                value = inputText,
+                onValueChange = onInputChange,
+                modifier = Modifier
+                    .weight(1f)
+                    .height(56.dp),
+                placeholder = { Text("Nhập tin nhắn...") },
+                shape = RoundedCornerShape(24.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = colors.primary,
+                    unfocusedBorderColor = colors.outline
+                )
             )
+            Spacer(Modifier.width(8.dp))
+            IconButton(
+                onClick = onSendClick,
+                modifier = Modifier
+                    .size(48.dp)
+                    .background(colors.primary, shape = RoundedCornerShape(24.dp))
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Send,
+                    contentDescription = "Send",
+                    tint = colors.onPrimary
+                )
+            }
         }
     }
 }

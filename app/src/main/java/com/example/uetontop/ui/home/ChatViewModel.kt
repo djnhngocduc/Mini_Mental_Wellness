@@ -17,7 +17,7 @@ class ChatViewModel : ViewModel() {
 
     private val _messages = MutableStateFlow(
         listOf(
-            ChatMessage("Xin chào! Tôi là UET Bot.", isUser = false)
+            ChatMessage("Xin chào! Tôi là TinyChat. Tôi luôn sẵn sàng lắng nghe tâm tư của bạn", isUser = false)
         )
     )
     val messages: StateFlow<List<ChatMessage>> = _messages
