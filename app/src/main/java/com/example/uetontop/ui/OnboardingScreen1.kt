@@ -104,7 +104,7 @@ fun OnboardingScreen1(navController: NavController) {
                     containerColor = Color(0xFF0F172A),   // đen xanh
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
-                        .padding(end = 24.dp, bottom = 40.dp)
+                        .padding(end = 20.dp, bottom = 40.dp)
                         .size(56.dp)
                         .shadow(10.dp, CircleShape, clip = false)
                 ) {

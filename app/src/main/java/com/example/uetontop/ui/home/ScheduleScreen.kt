@@ -62,7 +62,7 @@ fun ScheduleScreen(navController: NavController) {
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF4A90E2)
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             )
         },
