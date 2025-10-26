@@ -1,5 +1,7 @@
 package com.example.uetontop.ui.home
 
+import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,13 +27,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.uetontop.R
 
 @Composable
 fun HomeHeader(
     onProfileClick: () -> Unit = {},
     onChatClick: () -> Unit = {},
     onBellClick: () -> Unit = {},
+    @DrawableRes avatarRes: Int = R.drawable.people
 ) {
     Row(
         modifier = Modifier
@@ -49,13 +55,15 @@ fun HomeHeader(
             colors = CardDefaults.elevatedCardColors(containerColor = Color(0xFFF1F1F1)),
             elevation = CardDefaults.elevatedCardElevation(defaultElevation = 0.dp),
         ) {
-            // dùng ảnh cục bộ nếu có, tạm placeholder hình tròn 34dp
-            Box(
+            Image(
+                painter = painterResource(avatarRes),
+                contentDescription = "Avatar",
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(34.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFEDEDED))
             )
+
         }
 
         Spacer(Modifier.weight(1f))
