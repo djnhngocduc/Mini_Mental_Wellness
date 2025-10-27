@@ -3,6 +3,7 @@ package com.example.uetontop.ui.library
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -50,7 +51,8 @@ fun LibraryScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxSize()
                     .background(bg)
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = 16.dp)
+                    ,
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 contentPadding = PaddingValues(
                     top = 16.dp,
@@ -58,10 +60,32 @@ fun LibraryScreen(navController: NavController) {
                 )
             ) {
                 item { SectionTitle("Exercise") }
-                items(sampleItems) { LibraryItemRow(it) }
+                items(sampleItemsExercise) { item ->
+                    LibraryItemRow(item) { clicked ->
+                        val url = clicked.videoUrl
+                        if (url.isYouTubeLink()) {
+                            val id = extractYouTubeId(url)
+                            navController.navigate(Screen.YouTube.routeWithId(id))
+                        } else {
+                            navController.navigate(Screen.VideoPlayer.routeWithUrl(url))
+                        }
+                    }
+                }
+
                 item { Spacer(Modifier.height(16.dp)) }
                 item { SectionTitle("Podcast") }
-                items(sampleItems) { LibraryItemRow(it) }
+                items(sampleItemsPodcast) { item ->
+                    LibraryItemRow(item) { clicked ->
+                        val url = clicked.videoUrl
+                        if (url.isYouTubeLink()) {
+                            val id = extractYouTubeId(url)
+                            navController.navigate(Screen.YouTube.routeWithId(id))
+                        } else {
+                            navController.navigate(Screen.VideoPlayer.routeWithUrl(url))
+                        }
+                    }
+                }
+
             }
         }
     }
@@ -80,21 +104,93 @@ private data class LibraryUi(
     val category: String,
     val title: String,
     val subtitle: String,
-    @DrawableRes val imageRes: Int
+    @DrawableRes val imageRes: Int,
+    val videoUrl: String
 )
 
-private val sampleItems = listOf(
-    LibraryUi("UI/UX Design", "A Simple Trick For Creating Color Palettes Quickly", "Six steps to creating a color palette", R.drawable.art),
-    LibraryUi("Art", "Six steps to creating a color palette", "Quick ideas to start", R.drawable.colors),
-    LibraryUi("Colors", "Creating Color Palettes from images", "Tips and tools", R.drawable.leaves)
+//private val sampleItemsExercise = listOf(
+//    LibraryUi("Breathwork", "Box Breathing 4-4-4-4", "Calm your nerves in 5 minutes", R.drawable.art, "https://www.youtube.com/watch?v=GViVk4RVJYE"),
+//    LibraryUi("Art", "Six steps to creating a color palette", "Quick ideas to start", R.drawable.colors, "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),
+//    LibraryUi("Colors", "Creating Color Palettes from images", "Tips and tools", R.drawable.leaves, "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+//)
+//
+//private val sampleItemsPodcast = listOf(
+//    LibraryUi("UI/UX Design", "A Simple Trick For Creating Color Palettes Quickly", "Six steps to creating a color palette", R.drawable.art, "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),
+//    LibraryUi("Art", "Six steps to creating a color palette", "Quick ideas to start", R.drawable.colors, "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),
+//    LibraryUi("Colors", "Creating Color Palettes from images", "Tips and tools", R.drawable.leaves, "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+//)
+
+private val sampleItemsExercise = listOf(
+    LibraryUi(
+        "Breathwork",
+        "Box Breathing 4-4-4-4",
+        "Calm your nerves in 5 minutes",
+        R.drawable.art,
+        "https://www.youtube.com/watch?v=GViVk4RVJYE"
+    ),
+    LibraryUi(
+        "Mindful Stretch",
+        "Neck & Shoulder Release",
+        "Undo desk tension in 6 minutes",
+        R.drawable.colors,
+        "https://www.youtube.com/watch?v=ez6Rt_hW9xQ"
+    ),
+    LibraryUi(
+        "Meditation",
+        "10-min Body Scan",
+        "Relax head-to-toe awareness",
+        R.drawable.leaves,
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+    )
 )
+
+private val sampleItemsPodcast = listOf(
+    LibraryUi(
+        "Stress Science",
+        "Why Breathing Calms the Brain",
+        "The physiology of calm",
+        R.drawable.art,
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    ),
+    LibraryUi(
+        "Mindfulness",
+        "Beginner’s Guide to Meditation",
+        "Start in 7 minutes",
+        R.drawable.colors,
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+    ),
+    LibraryUi(
+        "Sleep & Chill",
+        "Soft Rain + Story",
+        "A soothing bedtime wind-down",
+        R.drawable.leaves,
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+    )
+)
+
+private fun String.isYouTubeLink() =
+    contains("youtube.com", ignoreCase = true) || contains("youtu.be", ignoreCase = true)
+
+private fun extractYouTubeId(url: String): String {
+    val uri = android.net.Uri.parse(url)
+    uri.getQueryParameter("v")?.let { return it }   // youtube.com/watch?v=ID
+    uri.lastPathSegment?.let { return it }          // youtu.be/ID
+    val regex = "(?<=v=)[^&#?]+|(?<=be/)[^&#?]+".toRegex()
+    return regex.find(url)?.value ?: url
+}
+
+
+
 
 @Composable
-private fun LibraryItemRow(item: LibraryUi) {
+private fun LibraryItemRow(item: LibraryUi,
+                           onClick: (LibraryUi) -> Unit = {}) {
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 8.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .clickable { onClick(item) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
