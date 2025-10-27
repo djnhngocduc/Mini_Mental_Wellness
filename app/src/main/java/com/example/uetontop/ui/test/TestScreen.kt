@@ -109,7 +109,6 @@ private sealed class TestUiState {
     data class Result(val testId: String, val score: Int, val maxScore: Int) : TestUiState()
 }
 
-// ---------- CONTENT: màn chọn test (giống trước, rút gọn) ----------
 @Composable
 private fun TestSelectContent(
     onNext: (String) -> Unit
@@ -119,8 +118,9 @@ private fun TestSelectContent(
             TestItem("BECK", "Test 1: BECK"),
             TestItem("PHQ-9", "Test 2: PHQ-9"),
             TestItem("DASS 21", "Test 3: DASS 21"),
-            TestItem("more1", "..."),
-            TestItem("more2", "...")
+            TestItem("ZUNG SAS", "Test 4: ZUNG SAS"),
+            TestItem("DISC", "Test 5: DISC"),
+            TestItem("EPDS", "Test 6: EPDS")
         )
     }
     var selectedId by remember { mutableStateOf<String?>(null) }
@@ -400,6 +400,73 @@ private fun QuestionFlowContent(
                 3
             )
 
+            "ZUNG SAS" -> Triple(
+                listOf(
+                    Question("q1","I feel anxious or panicky for no good reason.", emptyList()),
+                    Question("q2","I feel easily upset or irritated.", emptyList()),
+                    Question("q3","I experience trembling or shaking in my hands or body.", emptyList()),
+                    Question("q4","I sweat even without physical exertion.", emptyList()),
+                    Question("q5","I find it hard to relax.", emptyList()),
+                    Question("q6","My heart pounds or races.", emptyList()),
+                    Question("q7","I feel dizzy or light-headed.", emptyList()),
+                    Question("q8","I fear that something bad is going to happen.", emptyList()),
+                    Question("q9","I am easily startled.", emptyList()),
+                    Question("q10","I have trouble sleeping or my sleep is not restful.", emptyList()),
+                    Question("q11","I feel numbness or tingling in my fingers or toes.", emptyList()),
+                    Question("q12","I have muscle aches without clear cause.", emptyList()),
+                    Question("q13","I feel short of breath or can’t get enough air.", emptyList()),
+                    Question("q14","I feel a lump in my throat or difficulty swallowing.", emptyList()),
+                    Question("q15","I have stomach discomfort or upset.", emptyList()),
+                    Question("q16","I have to use the bathroom more often than usual.", emptyList()),
+                    Question("q17","My hands are cold and clammy.", emptyList()),
+                    Question("q18","My face flushes hot or turns pale suddenly.", emptyList()),
+                    Question("q19","I break out in a cold sweat.", emptyList()),
+                    Question("q20","I get tired easily.", emptyList())
+                ),
+                listOf("None or a little of the time", "Some of the time", "Good part of the time", "Most or all of the time"),
+                4
+            )
+
+            "DISC" -> Triple(
+                listOf(
+                    // Dominance
+                    Question("q1","I am decisive and like to take the lead when necessary.", emptyList()),
+                    Question("q2","I am comfortable taking risks to achieve goals.", emptyList()),
+                    Question("q3","I prefer quick action over prolonged discussion.", emptyList()),
+                    // Influence
+                    Question("q4","I easily start conversations and build new relationships.", emptyList()),
+                    Question("q5","I speak enthusiastically and motivate others.", emptyList()),
+                    Question("q6","I enjoy energetic, lively environments.", emptyList()),
+                    // Steadiness
+                    Question("q7","I remain calm and patient with people.", emptyList()),
+                    Question("q8","I am loyal and reliable in team settings.", emptyList()),
+                    Question("q9","I prefer a steady pace with few sudden changes.", emptyList()),
+                    // Conscientiousness
+                    Question("q10","I pay attention to details and quality standards.", emptyList()),
+                    Question("q11","I am careful and like clear processes.", emptyList()),
+                    Question("q12","I think logically before making decisions.", emptyList())
+                ),
+                listOf("Strongly disagree", "Disagree", "Agree", "Strongly agree"),
+                3
+            )
+
+            "EPDS" -> Triple(
+                listOf(
+                    Question("q1","I have been able to laugh and see the funny side of things.", emptyList()),
+                    Question("q2","I have looked forward with enjoyment to things.", emptyList()),
+                    Question("q3","I have blamed myself unnecessarily when things went wrong.", emptyList()),
+                    Question("q4","I have been anxious or worried for no good reason.", emptyList()),
+                    Question("q5","I have felt scared or panicky for no very good reason.", emptyList()),
+                    Question("q6","Things have been getting on top of me.", emptyList()),
+                    Question("q7","I have been so unhappy that I have had difficulty sleeping.", emptyList()),
+                    Question("q8","I have felt sad or miserable.", emptyList()),
+                    Question("q9","I have been so unhappy that I have been crying.", emptyList()),
+                    Question("q10","The thought of harming myself has occurred to me.", emptyList())
+                ),
+                listOf("Not at all", "Sometimes", "Often", "Nearly all the time"),
+                3
+            )
+
             else -> Triple(
                 // fallback: 10 câu giả lập nếu testId chưa được map
                 List(10) { i -> Question("q$i", "Question ${i + 1}: Lorem ipsum?", emptyList()) },
@@ -411,7 +478,27 @@ private fun QuestionFlowContent(
     val total = questions.size
     var index by remember { mutableIntStateOf(0) }
     var selections by remember { mutableStateOf(MutableList<Int?>(total) { null }) }
-    val maxScore = total * maxPerItem
+
+    val zungReverseIdx = setOf(4, 8, 12, 16, 18)
+    val epdsReverseIdx = (2..9).toSet()
+
+    fun scoreFor(testId: String, qIndex: Int, choiceIndex: Int): Int {
+        return when (testId) {
+            "ZUNG SAS" -> {
+                // Zung: 1..4; đảo điểm cho các câu reverse
+                val base = if (zungReverseIdx.contains(qIndex)) 4 - choiceIndex else choiceIndex + 1
+                base // 1..4
+            }
+            "EPDS" -> {
+                // EPDS: câu 1-2 chấm thuận (0..3); câu 3-10 đảo (3..0)
+                if (epdsReverseIdx.contains(qIndex)) 3 - choiceIndex else choiceIndex
+            }
+            else -> {
+                // PHQ-9, DASS-21, BECK, DISC (Likert đơn giản)
+                choiceIndex
+            }
+        }
+    }
 
     // Header progress
     Column(modifier = Modifier.fillMaxSize()) {
@@ -481,13 +568,26 @@ private fun QuestionFlowContent(
                     if (index < total - 1) index++
                     else {
                         // tính điểm: cộng chỉ số lựa chọn (0..3), null => 0
-                        val raw = selections.sumOf { it ?: 0 }   // 0..(3*items)
-                        val isDASS21 = testId.equals("DASS 21", true)
+                        val raw = selections.withIndex().sumOf { (i, sel) ->
+                            val ci = sel ?: 0
+                            scoreFor(testId, i ,ci)
+                        }
 
-                        val score = if (isDASS21) raw * 2 else raw
-                        val maxScore = questions.size * maxPerItem * if (isDASS21) 2 else 1
+                        val finalScore = when (testId) {
+                            "DASS 21" -> raw * 2
+                            else -> raw
+                        }
 
-                        onFinish(score, maxScore)
+                        val realMax = when (testId) {
+                            "ZUNG SAS" -> 20 * 4      // 20 câu, mỗi câu 1..4 => 80
+                            "EPDS"     -> 10 * 3      // 10 câu, mỗi câu 0..3 => 30
+                            "PHQ-9"    -> 9  * 3      // 27
+                            "DASS 21"  -> (21 * 3) * 2// 21 câu 0..3, rồi ×2 => 126
+                            "BECK"     -> 21 * 3      // 63
+                            else       -> questions.size * maxPerItem
+                        }
+
+                        onFinish(finalScore, realMax)
                     }
                 }
             )

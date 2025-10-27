@@ -100,7 +100,7 @@ fun HomeScreen(navController: NavController) {
             MyPlanGrid(
                 items = listOf(
                     PlanUi(
-                        title = "Get reminders for your relaxing time.\n",
+                        title = "Get reminders for your relaxing time",
                         bg = Color(0xFFFFE1E1),
                         fg = Color(0xFFB52222),
                         emoji = "🔔"
