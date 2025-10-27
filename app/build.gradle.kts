@@ -63,9 +63,14 @@ dependencies {
     implementation("androidx.compose.foundation:foundation")              // thay cho foundation-layout (gỡ cái cũ)
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+
 
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.8.3")
+    implementation(platform("androidx.compose:compose-bom:2025.01.00"))
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-extended")
 
     // Lifecycle Compose
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.6")
@@ -75,6 +80,14 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     // implementation("com.google.dagger:hilt-android:2.51.1")
     // kapt("com.google.dagger:hilt-compiler:2.51.1")
+//    implementation(platform("androidx.media3:media3-bom:1.4.1"))
+//    implementation("androidx.media3:media3-exoplayer:1.4.1")
+//    implementation("androidx.media3:media3-ui:1.4.1")
+    implementation("androidx.media3:media3-exoplayer:1.4.1")
+    implementation("androidx.media3:media3-ui:1.4.1")
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+
+    implementation(libs.androidx.media3.common.ktx)
 
     // Test
     testImplementation("junit:junit:4.13.2")
