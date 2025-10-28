@@ -10,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaItem
@@ -46,12 +45,12 @@ fun VideoPlayerScreen(videoUrl: String, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Playing") },
+                title = { Text("Đang phát") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
                             painterResource(android.R.drawable.ic_media_previous),
-                            contentDescription = "Back"
+                            contentDescription = "Quay lại"
                         )
                     }
                 }
@@ -66,7 +65,7 @@ fun VideoPlayerScreen(videoUrl: String, onBack: () -> Unit) {
                     .fillMaxSize()
                     .background(Color.Black),
                 contentAlignment = Alignment.Center
-            ) { Text("No video URL", color = Color.White) }
+            ) { Text("Không có đường dẫn video", color = Color.White) }
         } else {
             // 3) GẮN player cho PlayerView (lưu ý dùng exoPlayer, không phải 'player = player')
             AndroidView(

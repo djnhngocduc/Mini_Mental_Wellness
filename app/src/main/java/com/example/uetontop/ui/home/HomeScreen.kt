@@ -90,7 +90,7 @@ fun HomeScreen(navController: NavController) {
 
             // ---------- My plan ----------
             Text(
-                "My plan",
+                "Kế hoạch",
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -100,25 +100,25 @@ fun HomeScreen(navController: NavController) {
             MyPlanGrid(
                 items = listOf(
                     PlanUi(
-                        title = "Get reminders for your relaxing time",
+                        title = "Nhận thông báo khi đến thời gian thư giãn\n",
                         bg = Color(0xFFFFE1E1),
                         fg = Color(0xFFB52222),
                         emoji = "🔔"
                     ),
                     PlanUi(
-                        title = "Learn about people's mental health practices",
+                        title = "Khám phá cách mọi người chăm sóc sức khỏe tinh thần của họ",
                         bg = Color(0xFFDDE2FF),
                         fg = Color(0xFF2C3BAA),
                         emoji = "🔎"
                     ),
                     PlanUi(
-                        title = "Keep track of what\nmatters every day",
+                        title = "Theo dõi điều quan trọng với bạn mỗi ngày",
                         bg = Color(0xFFE8D9FF),
                         fg = Color(0xFF6B3FF3),
                         emoji = "💜"
                     ),
                     PlanUi(
-                        title = "Set reminders for\nsleep & focus",
+                        title = "Hẹn giờ nhắc ngủ và tập trung",
                         bg = Color(0xFFFFE3C6),
                         fg = Color(0xFF8A4A00),
                         emoji = "🧭"
@@ -147,14 +147,14 @@ private fun TodayCard(modifier: Modifier = Modifier) {
     ) {
         Column(Modifier.padding(16.dp)) {
             Text(
-                "Today",
+                "Hôm nay",
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.ExtraBold,
                     color = Color(0xFF1F2A5A)
                 )
             )
             Spacer(Modifier.height(4.dp))
-            Text("How are you feeling?", style = MaterialTheme.typography.bodyMedium)
+            Text("Bạn cảm thấy thế nào?", style = MaterialTheme.typography.bodyMedium)
 
             Spacer(Modifier.height(12.dp))
 
@@ -263,7 +263,7 @@ private fun PlanCardV2(item: PlanUi, onClick: () -> Unit) {
             // learn more
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    "Learn more",
+                    "Tìm hiểu thêm",
                     color = item.fg,
                     style = MaterialTheme.typography.labelLarge
                 )

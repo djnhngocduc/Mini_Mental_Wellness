@@ -29,7 +29,7 @@ fun YouTubeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Playing") },
+                title = { Text("Đang phát") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(

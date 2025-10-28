@@ -31,19 +31,19 @@ fun ScheduleScreen(navController: NavController) {
         Psychologist(
             "Dr. Nguyễn Minh Anh",
             "Tâm lý học hành vi",
-            "minhanh@uet.vn | 0909 123 456",
+            "minhanh@vnu.edu.vn | 0909 123 456",
             "Thứ 2: 9h–11h, Thứ 4: 14h–16h"
         ),
         Psychologist(
             "ThS. Trần Đức Huy",
             "Tư vấn học đường",
-            "duchuy@uet.vn | 0908 555 888",
+            "duchuy@vnu.edu.vn | 0908 555 888",
             "Thứ 3: 10h–12h, Thứ 5: 15h–17h"
         ),
         Psychologist(
             "TS. Lê Mai Phương",
             "Liệu pháp nhận thức – hành vi (CBT)",
-            "maiphuong@uet.vn | 0912 222 777",
+            "maiphuong@vnu.edu.vn | 0912 222 777",
             "Thứ 6: 8h–11h"
         )
     )

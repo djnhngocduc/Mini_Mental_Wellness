@@ -62,7 +62,7 @@ fun OnboardingScreen1(navController: NavController) {
 
             // Illustration (dùng ảnh local của bạn)
             Image(
-                painter = painterResource(R.drawable.screen1 /* thay id ảnh của bạn */),
+                painter = painterResource(R.drawable.screen1),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(top = 8.dp)
@@ -74,7 +74,7 @@ fun OnboardingScreen1(navController: NavController) {
 
             Column {
                 Text(
-                    text = "Welcome to",
+                    text = "Chào mừng đến với",
                     color = Color(0xFF111827),
                     fontSize = 29.sp,
                     fontWeight = FontWeight.ExtraBold,
@@ -85,7 +85,7 @@ fun OnboardingScreen1(navController: NavController) {
                 Spacer(Modifier.height(4.dp)) // chỉnh 4–12dp tùy ý
 
                 Text(
-                    text = "Mini mental wellness",
+                    text = "Ứng dụng chăm sóc sức khỏe tinh thần mini",
                     color = Color(0xFF111827),
                     fontSize = 29.sp,
                     fontWeight = FontWeight.ExtraBold,

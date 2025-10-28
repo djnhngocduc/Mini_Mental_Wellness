@@ -48,7 +48,7 @@ fun BottomBar(navController: NavController) {
                         }
                     },
                     icon = { Icon(icon, contentDescription = screen.route) },
-                    label = { Text(screen.route.replaceFirstChar { it.uppercase() }) }
+                    label = { Text(screen.route) }
                 )
             }
         }

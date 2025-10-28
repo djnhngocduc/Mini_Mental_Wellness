@@ -80,7 +80,7 @@ fun OnboardingScreen2(navController: NavController) {
         ) {
             // Tiêu đề 2 dòng
             Text(
-                text = "Give us some basic\ninformation",
+                text = "Hãy cung cấp 1 số\nthông tin cơ bản",
                 color = primary,
                 fontSize = 25.sp,
                 lineHeight = 28.sp,
@@ -100,7 +100,7 @@ fun OnboardingScreen2(navController: NavController) {
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         GenderOption(
-                            label = "Male",
+                            label = "Nam",
                             icon = Icons.Outlined.Male,
                             selected = selectedGender == "Male",
                             onClick = { selectedGender = "Male" },
@@ -109,7 +109,7 @@ fun OnboardingScreen2(navController: NavController) {
                             modifier = Modifier.weight(1f)
                         )
                         GenderOption(
-                            label = "Female",
+                            label = "Nữ",
                             icon = Icons.Outlined.Female,
                             selected = selectedGender == "Female",
                             onClick = { selectedGender = "Female" },
@@ -121,7 +121,7 @@ fun OnboardingScreen2(navController: NavController) {
 
                     Spacer(Modifier.height(20.dp))
 
-                    Text("Height", color = primary, fontWeight = FontWeight.SemiBold)
+                    Text("Chiều cao", color = primary, fontWeight = FontWeight.SemiBold)
                     Spacer(Modifier.height(20.dp))
                     LabeledSlider(
                         value = height,
@@ -148,7 +148,7 @@ fun OnboardingScreen2(navController: NavController) {
 
                     Spacer(Modifier.height(25.dp))
 
-                    Text("Weight", color = primary, fontWeight = FontWeight.SemiBold)
+                    Text("Cân nặng", color = primary, fontWeight = FontWeight.SemiBold)
                     Spacer(Modifier.height(20.dp))
                     LabeledSlider(
                         value = weight,

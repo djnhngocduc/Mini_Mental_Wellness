@@ -22,10 +22,10 @@ import com.example.uetontop.ui.library.YouTubeScreen
 sealed class Screen(val route: String) {
     object Onboarding1 : Screen("onboarding1")
     object Onboarding2 : Screen("onboarding2")
-    object Home : Screen("home")
-    object Test : Screen("test")
-    object Library : Screen("library")
-    object Profile : Screen("profile")
+    object Home : Screen("Trang chủ")
+    object Test : Screen("Kiểm tra")
+    object Library : Screen("Thư viện")
+    object Profile : Screen("Cá nhân")
     object Chat : Screen("chat")
     object Schedule : Screen("schedule")
     object VideoPlayer : Screen("video?url={url}") {

@@ -57,7 +57,7 @@ fun ProfileScreen(navController: NavController) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            "3 days ago",
+                            "3 ngày trước",
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.weight(1f)
                         )
@@ -81,13 +81,13 @@ fun ProfileScreen(navController: NavController) {
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         StatCard(
-                            title = "Heart Rate", value = "78", unit = "bpm",
+                            title = "Nhịp tim", value = "78", unit = "nhịp/phút",
                             container = MaterialTheme.colorScheme.errorContainer.copy(alpha = .25f),
                             onColor = MaterialTheme.colorScheme.error,
                             modifier = Modifier.weight(1f)
                         )
                         StatCard(
-                            title = "Exercise", value = "24", unit = "min",
+                            title = "Vận động", value = "24", unit = "phút",
                             container = MaterialTheme.colorScheme.primaryContainer.copy(alpha = .35f),
                             onColor = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.weight(1f)
@@ -106,13 +106,13 @@ fun ProfileScreen(navController: NavController) {
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         StatCard(
-                            title = "Walking", value = "10", unit = "km",
+                            title = "Đi bộ", value = "10", unit = "km",
                             container = MaterialTheme.colorScheme.tertiaryContainer.copy(alpha = .35f),
                             onColor = MaterialTheme.colorScheme.tertiary,
                             modifier = Modifier.weight(1f)
                         )
                         StatCard(
-                            title = "Sleep", value = "8", unit = "hrs",
+                            title = "Ngủ", value = "8", unit = "giờ",
                             container = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = .35f),
                             onColor = MaterialTheme.colorScheme.secondary,
                             modifier = Modifier.weight(1f)
@@ -125,7 +125,7 @@ fun ProfileScreen(navController: NavController) {
                 }
 
                 item {
-                    SettingSwitchRow("Notifications", notif) { notif = it }
+                    SettingSwitchRow("Thông báo", notif) { notif = it }
                 }
 
                 item {
@@ -133,7 +133,7 @@ fun ProfileScreen(navController: NavController) {
                 }
 
                 item {
-                    SettingArrowRow("Language")
+                    SettingArrowRow("Ngôn ngữ")
                 }
 
                 item {
@@ -141,7 +141,7 @@ fun ProfileScreen(navController: NavController) {
                 }
 
                 item {
-                    SettingArrowRow("Change Password")
+                    SettingArrowRow("Đổi mật khẩu")
                 }
 
                 item {
@@ -164,7 +164,7 @@ fun ProfileScreen(navController: NavController) {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                "Sign Out",
+                                "Đăng xuất",
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.weight(1f)
                             )

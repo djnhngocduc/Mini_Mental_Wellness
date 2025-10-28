@@ -59,7 +59,7 @@ fun LibraryScreen(navController: NavController) {
                     bottom = inner.calculateBottomPadding() + 16.dp
                 )
             ) {
-                item { SectionTitle("Exercise") }
+                item { SectionTitle("Bài tập") }
                 items(sampleItemsExercise) { item ->
                     LibraryItemRow(item) { clicked ->
                         val url = clicked.videoUrl
@@ -122,49 +122,49 @@ private data class LibraryUi(
 
 private val sampleItemsExercise = listOf(
     LibraryUi(
-        "Breathwork",
-        "Box Breathing 4-4-4-4",
-        "Calm your nerves in 5 minutes",
+        "Kỹ thuật thở",
+        "Thở hộp 4-4-4-4",
+        "Xoa dịu hệ thần kinh trong 5 phút",
         R.drawable.art,
         "https://www.youtube.com/watch?v=GViVk4RVJYE"
     ),
     LibraryUi(
-        "Mindful Stretch",
-        "Neck & Shoulder Release",
-        "Undo desk tension in 6 minutes",
-        R.drawable.colors,
-        "https://www.youtube.com/watch?v=ez6Rt_hW9xQ"
+        category = "Giãn cơ chánh niệm",
+        title = "Thả lỏng cổ & vai",
+        subtitle = "Giải tỏa căng cứng do ngồi bàn làm việc trong 6 phút",
+        imageRes = R.drawable.colors,
+        videoUrl = "https://www.youtube.com/watch?v=ez6Rt_hW9xQ"
     ),
     LibraryUi(
-        "Meditation",
-        "10-min Body Scan",
-        "Relax head-to-toe awareness",
-        R.drawable.leaves,
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+        category = "Thiền",
+        title = "Quét cơ thể 10 phút",
+        subtitle = "Thả lỏng và quan sát cơ thể từ đầu đến chân",
+        imageRes = R.drawable.leaves,
+        videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
     )
 )
 
 private val sampleItemsPodcast = listOf(
     LibraryUi(
-        "Stress Science",
-        "Why Breathing Calms the Brain",
-        "The physiology of calm",
-        R.drawable.art,
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+        category = "Khoa học về căng thẳng",
+        title = "Vì sao hơi thở làm dịu não bộ",
+        subtitle = "Sinh lý học của sự bình tâm",
+        imageRes = R.drawable.art,
+        videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
     ),
     LibraryUi(
-        "Mindfulness",
-        "Beginner’s Guide to Meditation",
-        "Start in 7 minutes",
-        R.drawable.colors,
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+        category = "Chánh niệm",
+        title = "Thiền cho người mới bắt đầu",
+        subtitle = "Bắt đầu chỉ trong 7 phút",
+        imageRes = R.drawable.colors,
+        videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
     ),
     LibraryUi(
-        "Sleep & Chill",
-        "Soft Rain + Story",
-        "A soothing bedtime wind-down",
-        R.drawable.leaves,
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+        category = "Ngủ ngon & thư giãn",
+        title = "Tiếng mưa nhẹ + kể chuyện",
+        subtitle = "Thư giãn dịu nhẹ trước giờ đi ngủ",
+        imageRes = R.drawable.leaves,
+        videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
     )
 )
 
